@@ -1,7 +1,8 @@
 const express = require('express');
 const users = require('./users.js');
 const app = express();
-// const Joi = require('joi');
+const Joi = require('joi');
+//instalou o nodemon tb
 // const port = process.env.PORT || 3000;
 
 app.use(express.json());
@@ -39,6 +40,24 @@ app.put('caminho_para_atualizar_um_usuário', (req, res) => {
     return res.status(404).send('Deu merda');
   }
 
+  //acima o erro é not found
+
+  const schema = {
+    name: Joi.string().min(3).required,
+    email: Joi.string().min(3).required,
+  }
+
+  const validation = Joi.validate(req.body, schema)
+  if(validation.error) {
+    return res.status(400).send(validation.error.details[0].message)
+  }
+  //o erro acima é bad request
+  //se nao tiver nada no req body name ou req body email não tiver nada, vai aparecer um erro 400 com a mensagem acima
+
+  foundUser.name = req.body.name
+  foundUser.email = req.body.email
+  //quando estiver no postman, vai retornar na response um id para o novo usuário
+
   // Se for encontrado, faça a validação dos campos obrigatórios
   res.send(foundUser);
   
@@ -49,6 +68,8 @@ app.put('caminho_para_atualizar_um_usuário', (req, res) => {
 });
 
 app.delete('/api/users/:id', (req, res) => {
+  //precisa de um id pra fazer request delete, quer deletar um específico
+  
 });
 
 const schema = {
