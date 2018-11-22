@@ -21,6 +21,7 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 app.post('/api/users', (req, res) => {
+  const id = users.map(user => user.id)
   const newUser = {
     id: users.length + 1,
     name: req.body.name,
@@ -69,7 +70,7 @@ app.put('caminho_para_atualizar_um_usuário', (req, res) => {
 
 app.delete('/api/users/:id', (req, res) => {
   //precisa de um id pra fazer request delete, quer deletar um específico
-  
+
 });
 
 const schema = {
